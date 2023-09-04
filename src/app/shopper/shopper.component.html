@@ -1,0 +1,46 @@
+<h1 class="title">Skin Care Center</h1>
+<form #form="ngForm" (ngSubmit)="submitForm(form)" class="form_group">
+    <main class="container" [ngClass]="{'container-flex': buttonClicked}">
+        <section class="bodycream">
+            <div class="bodycreamImg">
+                <img src="../../assets/image/body_cream.jpg" alt="image of body cream">
+            </div>
+            <div class="bodycreamDescription">
+                <p class="bodycreamName">Hand & Body Cream</p>
+                <p class="bodycreamPrice"><span class="priceNow">$69.99</span><span>$300 values</span></p>
+                <p class="quantityLeft" *ngIf="initialQuantity <= 0">OUT OF STOCK</p>
+                <p class="quantityLeft" *ngIf="initialQuantity > 0">only {{ initialQuantity }} items left</p>
+                <label class="quantityLabel">Quantity
+                    <input type="number" required [(ngModel)]="parsedJsonQuantity" #quantity="ngModel" name="quantity"
+                        class="form-control smaller-input" min="0">
+                </label>
+                <button class="submit_btn" (click)="buttonClicked = true"
+                    [disabled]="initialQuantity === 0 || parsedJsonQuantity > 20 || formSubmit || form.invalid || !form.touched">
+                    {{ initialQuantity === 0 ? 'OUT OF STOCK' : 'Add to Bag' }}
+                </button>
+
+            </div>
+            <div class="errorMsg" *ngIf="parsedJsonQuantity > 20">
+                <p>Only have {{initialQuantity}} sets in stock</p>
+            </div>
+        </section>
+
+        <section class="shopperForm" *ngIf="form.submitted && !booleanQuantity && this.parsedJsonQuantity > 0">
+            <p class="form_shopperInfo">Shopping Cart</p>
+            <div class="form_group group">
+                <p class="orderSummary"><b>Order: </b><em>Hand & Body Cream</em></p>
+                <p class="orderSummary"><b>Quantity: </b><em>{{parsedJsonQuantity}}</em></p>
+                <p class="orderSummary"><b>Total $</b><em>{{parsedJsonTotal}}</em></p>
+            </div>
+            <button class="submit_btn1" [disabled]="buttonClicked" (click)="continueShopping()">Continue
+                Shopping</button>
+            <button class="submit_btn1" [disabled]="buttonClicked" (click)="checkout()">Checkout</button>
+
+        </section>
+
+    </main>
+</form>
+
+<footer class="footer">
+    <p>Angular App by Weifeng @August 2023</p>
+</footer>
